@@ -1,0 +1,156 @@
+# Task 1: Network Scanning Using Nmap
+
+## 1. Objective
+To scan my own Windows computer using Nmap, identify open TCP ports, detect available services, and attempt operating system identification.
+
+## 2. Target
+- Target IP: 192.168.43.122
+- Device: My own Windows computer
+- Tool: Nmap 7.992
+- Scope: My own device only
+
+## 3. Scan One — Basic Port Scan
+
+Command:
+`nmap 192.168.43.122`
+
+Results:
+- Host status: Up
+- 135/tcp: Open — MSRPC
+- 139/tcp: Open — NetBIOS session service
+- 445/tcp: Open — Microsoft-DS
+- 997 other scanned TCP ports: Closed
+
+## 4. Scan Two — Service Detection
+
+Command:
+`nmap -sV 192.168.43.122`
+
+Results:
+- 135/tcp: Microsoft Windows RPC
+- 139/tcp: Microsoft Windows NetBIOS session service
+- 445/tcp: Microsoft-DS; exact service identification was uncertain
+- OS family identified by service detection: Windows
+
+Nmap did not identify exact software versions for these services.
+
+## 5. Scan Three — Operating System Detection
+
+Command:
+`nmap -O 192.168.43.122`
+
+Results:
+- Device type: General purpose
+- Detected operating system: Microsoft Windows 11
+- Nmap OS details: Windows 11 24H2–25H2
+- Network distance: 0 hops
+
+OS detection is an estimate and should not be treated as definitive confirmation of the exact Windows version.
+
+## 6. Security Analysis
+
+The scan identified three open TCP ports:
+
+- **Port 135 — MSRPC:** Used by Windows for Remote Procedure Call functionality. Its exposure should be limited to trusted networks and required services.
+- **Port 139 — NetBIOS session service:** Associated with legacy Windows networking and file-sharing functions. It should be restricted if it is not required.
+- **Port 445 — Microsoft-DS/commonly SMB:** Commonly associated with Windows file sharing. Unnecessary exposure may increase the risk of unauthorized access or exploitation of vulnerable SMB configurations.
+
+An open port does not automatically mean that a computer is vulnerable. Risk depends on the service configuration, Windows updates, firewall rules, and network exposure.
+
+## 7. Recommendations
+
+1. Keep Windows and security updates current.
+2. Ensure Windows Defender Firewall is enabled.
+3. Review file-sharing and network-discovery settings.
+4. Restrict ports 135, 139, and 445 to trusted networks where appropriate.
+5. Disable file-sharing features or services only if they are not needed and after checking their impact.
+6. Repeat the scan after making any approved security changes to verify the results.
+
+## 8. Conclusion
+
+Nmap successfully identified three open TCP ports and estimated the target operating system as Windows 11. Service detection provided information about the services associated with the open ports. The results demonstrate how network scanning can help identify services that require security review. Further configuration checks would be needed to determine whether any actual vulnerability exists.
+
+
+
+
+
+
+
+
+
+
+
+
+TASK 1: NMAP SCAN RESULTS
+
+Target IP: 192.168.43.122
+Tool: Nmap 7.992
+Target: My own Windows computer
+
+========================================
+SCAN 1: BASIC PORT SCAN
+========================================
+
+Command:
+nmap 192.168.43.122
+
+Output:
+Starting Nmap 7.992 at 2026-10-23 23:19 +0200
+Nmap scan report for Samukelo_Sofala (192.168.43.122)
+Host is up (0.00011s latency).
+Not shown: 997 closed tcp ports (reset)
+
+PORT    STATE SERVICE
+135/tcp open  msrpc
+139/tcp open  netbios-ssn
+445/tcp open  microsoft-ds
+
+Nmap done: 1 IP address (1 host up) scanned in 1.00 seconds
+
+========================================
+SCAN 2: SERVICE DETECTION
+========================================
+
+Command:
+nmap -sV 192.168.43.122
+
+Output:
+Starting Nmap 7.992 at 2026-10-23 23:21 +0200
+Nmap scan report for Samukelo_Sofala (192.168.43.122)
+Host is up (0.0010s latency).
+Not shown: 997 closed tcp ports (reset)
+
+PORT    STATE SERVICE       VERSION
+135/tcp open  msrpc         Microsoft Windows RPC
+139/tcp open  netbios-ssn   Microsoft Windows netbios-ssn
+445/tcp open  microsoft-ds?
+
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Nmap done: 1 IP address (1 host up) scanned in 7.52 seconds
+
+========================================
+SCAN 3: OPERATING SYSTEM DETECTION
+========================================
+
+Command:
+nmap -O 192.168.43.122
+
+Output:
+Starting Nmap 7.992 at 2026-10-23 23:24 +0200
+Nmap scan report for Samukelo_Sofala (192.168.43.122)
+Host is up (0.00077s latency).
+Not shown: 997 closed tcp ports (reset)
+
+PORT    STATE SERVICE
+135/tcp open  msrpc
+139/tcp open  netbios-ssn
+445/tcp open  microsoft-ds
+
+Device type: general purpose
+Running: Microsoft Windows 11
+OS CPE: cpe:/o:microsoft:windows_11
+OS details: Microsoft Windows 11 24H2 - 25H2
+Network Distance: 0 hops
+
+Nmap done: 1 IP address (1 host up) scanned in 2.03 seconds
